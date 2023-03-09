@@ -54,8 +54,9 @@
             this.costColumn});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 123;
             this.dataGridView1.RowTemplate.Height = 46;
             this.dataGridView1.Size = new System.Drawing.Size(2449, 1290);
@@ -64,54 +65,61 @@
             // 
             // categoryColumn
             // 
+            this.categoryColumn.FillWeight = 21.17743F;
             this.categoryColumn.HeaderText = "Category";
             this.categoryColumn.MinimumWidth = 15;
             this.categoryColumn.Name = "categoryColumn";
             // 
             // itemColumn
             // 
+            this.itemColumn.FillWeight = 36.40049F;
             this.itemColumn.HeaderText = "Item";
             this.itemColumn.MinimumWidth = 15;
             this.itemColumn.Name = "itemColumn";
             // 
             // materialColumn
             // 
+            this.materialColumn.FillWeight = 76.51418F;
             this.materialColumn.HeaderText = "Material";
             this.materialColumn.MinimumWidth = 15;
             this.materialColumn.Name = "materialColumn";
             // 
             // descriptionColumn
             // 
+            this.descriptionColumn.FillWeight = 127.5064F;
             this.descriptionColumn.HeaderText = "Description";
             this.descriptionColumn.MinimumWidth = 15;
             this.descriptionColumn.Name = "descriptionColumn";
             // 
             // quantityColumn
             // 
+            this.quantityColumn.FillWeight = 132.8902F;
             this.quantityColumn.HeaderText = "Quantity";
             this.quantityColumn.MinimumWidth = 15;
             this.quantityColumn.Name = "quantityColumn";
             // 
             // unitCostColumn
             // 
+            this.unitCostColumn.FillWeight = 167.9846F;
             this.unitCostColumn.HeaderText = "Unit Cost";
             this.unitCostColumn.MinimumWidth = 15;
             this.unitCostColumn.Name = "unitCostColumn";
             // 
             // costColumn
             // 
+            this.costColumn.FillWeight = 137.5268F;
             this.costColumn.HeaderText = "Cost";
             this.costColumn.MinimumWidth = 15;
             this.costColumn.Name = "costColumn";
             // 
             // Form2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2449, 1290);
             this.Controls.Add(this.dataGridView1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form2";
             this.Text = "Materials List Estimator";
             this.Load += new System.EventHandler(this.Form2_Load);
