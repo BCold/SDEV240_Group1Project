@@ -23,12 +23,12 @@ namespace group_1_Final
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void Label1_Click(object sender, EventArgs e)
         {
             
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             this.Hide();
             Form2 f2 = new Form2();

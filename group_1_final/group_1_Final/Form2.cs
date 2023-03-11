@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace group_1_Final
 {
@@ -18,87 +19,157 @@ namespace group_1_Final
             InitializeComponent();
 
         }
-        void CalcMaterialTotal()
-        // Calculates the total cost of a material based on input quantity and unit pricing
+
+        private void Form2_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < dataGridView1.RowCount; ++i)
+
+            // !!!!! PLACEHOLDER DATA FOR TESTING PURPOSES, PLEASE REMOVE BEFORE FINAL SUBMISSION !!!!!
+            materialsTable.Rows.Add("Flooring", "Concrete", "Ready to Mix Concrete", "50 lb bag", 5, 10.99);
+            materialsTable.Rows.Add("Flooring", "Rebar", "Steel", "1/2 inch x 10 ft", 30, 4.99);
+            materialsTable.Rows.Add("Flooring", "Tile", "Flat Clay Flooring", "3 inches by 12 inches", 1, 3.99);
+            materialsTable.Rows.Add("Walls", "Dry wall", "Walls", "1/2-in x 4-ft x 8-ft", 3, 11.99);
+            materialsTable.Rows.Add("Walls", "Interior Paint", "Low Odor Paint Semi Gloss", "1 Quart", 8, 14.99);
+            materialsTable.Rows.Add("Walls", "Exterior Paint", "Latex Paint", "5 gallon", 2, 35.99);
+            materialsTable.Rows.Add("Windows", "Single Hung Window", "Vinyl insulated with grids", "35.5-in", 3, 227.99);
+            materialsTable.Rows.Add("Door", "Modern Fiberglass Door", "Fiberglass for durability", "36-in x 80-in", 2, 959.99);
+
+        }
+
+        void CalcMaterialTotal()
+        // Calculates the total cost of a material based on input quantity and unit pricing.
+        {
+            for (int i = 0; i < materialsTable.RowCount; ++i)
             {
-                if (dataGridView1.Rows[i].Cells[4].Value != null && dataGridView1.Rows[i].Cells[5].Value != null)
+                if (materialsTable.Rows[i].Cells[4].Value != null && materialsTable.Rows[i].Cells[5].Value != null)
                 {
-                    int quantity = Convert.ToInt32(dataGridView1.Rows[i].Cells[4].Value);
-                    double unitPrice = Convert.ToDouble(dataGridView1.Rows[i].Cells[5].Value);
-                    dataGridView1.Rows[i].Cells[6].Value = (quantity * unitPrice).ToString("F2");
+                    int quantity = Convert.ToInt32(materialsTable.Rows[i].Cells[4].Value);
+                    double unitPrice = Convert.ToDouble(materialsTable.Rows[i].Cells[5].Value);
+                    materialsTable.Rows[i].Cells[6].Value = (quantity * unitPrice).ToString("F2");
                 }
             }
         }
 
         void CalcGrandTotal()
+            // Calculates the grand cost of materials after individual material costs have been tallied.
         {
             double grandTotal = 0;
-            for (int i = 0; i < dataGridView1.RowCount; ++i)
+            for (int i = 0; i < materialsTable.RowCount; ++i)
             {
-                if (dataGridView1.Rows[i].Cells[6].Value != null)
+                if (materialsTable.Rows[i].Cells[6].Value != null)
                 {
-                    grandTotal += Convert.ToDouble(dataGridView1.Rows[i].Cells[6].Value);
+                    grandTotal += Convert.ToDouble(materialsTable.Rows[i].Cells[6].Value);
                 }
             }
-            label1.Text = grandTotal.ToString("F2");
+            grandTotalLabel.Text = "Grand Total\n" + grandTotal.ToString("F2");
 
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        void ExportToFile()
+        // Outputs the contents of the dataGridView to a text file.
+
         {
-            dataGridView1.Rows.Add("Flooring", "Concrete", "Ready to Mix Concrete", "50 lb bag", 5, 10.99);
-            dataGridView1.Rows.Add("Flooring", "Rebar", "Steel", "1/2 inch x 10 ft", 10, 4.99);
-            dataGridView1.Rows.Add("Flooring", "Tile", "Flat Clay Flooring", "3 inches by 12 inches", 20, 3.99);
-            dataGridView1.Rows.Add(null, null, null, null, null, "Total", null);
-            dataGridView1.Rows.Add(null, null, null, null, null, null, null);
-            dataGridView1.Rows.Add("Walls", "Dry wall", "Walls", "1/2-in x 4-ft x 8-ft", 5, 11.99);
-            dataGridView1.Rows.Add("Walls", "Interior Paint", "Low Odor Paint Semi Gloss", "1 Quart", 2, 14.99);
-            dataGridView1.Rows.Add("Walls", "Exterior Paint", "Latex Paint", "5 gallon", 1, 35.99);
-            dataGridView1.Rows.Add(null, null, null, null, null, "Total", null);
-            dataGridView1.Rows.Add(null, null, null, null, null, null, null);
-            dataGridView1.Rows.Add("Windows", "Single Hung Window", "Vinyl insulated with grids", "35.5-in", null, 227.99);
-            dataGridView1.Rows.Add(null, null, null, null, null, "Total", null);
-            dataGridView1.Rows.Add(null, null, null, null, null, null, null);
-            dataGridView1.Rows.Add("Door", "Modern Fiberglass Door", "Fiberglass for durability", "36-in x 80-in", null, 959.99);
-            dataGridView1.Rows.Add(null, null, null, null, null, "Total", null);
-            dataGridView1.Rows.Add(null, null, null, null, null, "Grand total", null);
+            // Initializing delimiter for file output.
+            char DELIM = ',';
+
+  
+            // Initializing FileStream and StreamWriter for file output.
+            string fileName = @"" + exportFileBox.Text + ".txt";
+   
+            FileStream outFile = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(outFile);
+
+            // Iterates through all rows and the dataGridView except for the final row, which will always be empty.
+            for (int row = 0; row < materialsTable.RowCount - 1; ++row)
+            {
+                // Iterates through each column of the current row
+                for (int column = 0; column < materialsTable.ColumnCount; ++column)
+                {
+                    // if the current cell is not empty it is written to the file. Each value is seperated by the delimiter held within the DELIM constant.
+                    if (materialsTable.Rows[row].Cells[column].Value != null)
+                        writer.Write(materialsTable.Rows[row].Cells[column].Value + DELIM.ToString());
+                }
+
+                // After all values are added to the file a new line is created which will hold the subsequent row's values.
+                writer.Write("\n");
+            }
+
+            // Adds the calculated grand total value to the file.
+            writer.WriteLine(grandTotalLabel.Text);
+
+            // Clean up the writer and FileStream objects.
+            writer.Close();
+            outFile.Close();
+
+            MessageBox.Show("File saved successfully.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void DataGridView1_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        // When the user right clicks within a cell the row is selected and a context menu appears at the location of the mouse cursor.
         {
             if (e.Button == MouseButtons.Right)
             {
-                this.dataGridView1.Rows[e.RowIndex].Selected = true;
+                this.materialsTable.Rows[e.RowIndex].Selected = true;
                 this.rowIndex = e.RowIndex;
-                this.dataGridView1.CurrentCell = this.dataGridView1.Rows[e.RowIndex].Cells[1];
-                this.contextMenuStrip1.Show(this.dataGridView1, e.Location);
+                this.materialsTable.CurrentCell = this.materialsTable.Rows[e.RowIndex].Cells[1];
+                this.contextMenuStrip1.Show(this.materialsTable, e.Location);
                 contextMenuStrip1.Show(Cursor.Position);
             }
         }
 
         private void ContextMenuStrip1_Click(object sender, EventArgs e)
+        // When the deleteRowItem context menu item is clicked and the row is not new, deletes the selected row from the dataGridView.
         {
-            if (!this.dataGridView1.Rows[this.rowIndex].IsNewRow)
-                this.dataGridView1.Rows.RemoveAt(this.rowIndex);
+            if (!this.materialsTable.Rows[this.rowIndex].IsNewRow)
+                this.materialsTable.Rows.RemoveAt(this.rowIndex);
         }
 
         private void DataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
+        // When a cell is no longer selected automatically calculates material and grand total values. This impleemntation renders a calculate button redundant, as it's done automatically by the program.
         {
             CalcMaterialTotal();
             CalcGrandTotal();
         }
 
         private void DataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        // When a cell is entered automatically calculates material and grand total values. This impleemntation renders a calculate button redundant, as it's done automatically by the program.
         {
             CalcMaterialTotal();
             CalcGrandTotal();
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        // Ensures that the application exits properly when the second form is closed by the user.
         {
             Application.Exit();
+        }
+
+        private void SaveFileBtn_Click(object sender, EventArgs e)
+        // Checks whether the fileInputBox is empty when the user clicks the saveFileBtn.
+        {
+            // Displays an alert to the user when they attempt to save a file without first entering a file name.
+            if (string.IsNullOrEmpty(exportFileBox.Text))
+                MessageBox.Show("You must enter a file name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            // If there is text present in the fileInputBox when the user clicks the saveFileBtn hides the emptyBoxAlertLabel, calles the OutputToFile method and clears the contents of the fileInputBox. A confirmation MessageBox is displayed.
+            else
+                if (!string.IsNullOrEmpty(exportFileBox.Text))
+                {
+                    ExportToFile();
+                    exportFileBox.Text = "";
+                }
+        }
+
+        private void ClearBtn_Click(object sender, EventArgs e)
+        // When the Clear button is clicked a MessageBox is displayed verifying that the user wants to clear the table. If the 'OK' button is clicked the table is wiped.
+        {
+            DialogResult warning;
+            warning = MessageBox.Show("You are about to clear all data.\n Proceed?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            if(warning == DialogResult.OK)
+            {
+                materialsTable.Rows.Clear();
+                materialsTable.Refresh();
+                materialsTable.ClearSelection();
+            }
         }
     }
 }
