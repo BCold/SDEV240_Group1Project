@@ -23,16 +23,6 @@ namespace group_1_Final
         private void Form2_Load(object sender, EventArgs e)
         {
 
-            // !!!!! PLACEHOLDER DATA FOR TESTING PURPOSES, PLEASE REMOVE BEFORE FINAL SUBMISSION !!!!!
-            materialsTable.Rows.Add("Flooring", "Concrete", "Ready to Mix Concrete", "50 lb bag", 5, 10.99);
-            materialsTable.Rows.Add("Flooring", "Rebar", "Steel", "1/2 inch x 10 ft", 30, 4.99);
-            materialsTable.Rows.Add("Flooring", "Tile", "Flat Clay Flooring", "3 inches by 12 inches", 1, 3.99);
-            materialsTable.Rows.Add("Walls", "Dry wall", "Walls", "1/2-in x 4-ft x 8-ft", 3, 11.99);
-            materialsTable.Rows.Add("Walls", "Interior Paint", "Low Odor Paint Semi Gloss", "1 Quart", 8, 14.99);
-            materialsTable.Rows.Add("Walls", "Exterior Paint", "Latex Paint", "5 gallon", 2, 35.99);
-            materialsTable.Rows.Add("Windows", "Single Hung Window", "Vinyl insulated with grids", "35.5-in", 3, 227.99);
-            materialsTable.Rows.Add("Door", "Modern Fiberglass Door", "Fiberglass for durability", "36-in x 80-in", 2, 959.99);
-
         }
 
         void CalcMaterialTotal()
